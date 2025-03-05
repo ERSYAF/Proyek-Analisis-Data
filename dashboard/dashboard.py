@@ -9,7 +9,7 @@ sns.set(style='darkgrid')
 # Load data
 df = pd.read_csv("dashboard/dataclean_bikesharing.csv", parse_dates=['date'])
 
-# Menentukan tanggal awal dan tanggal akhir
+# Menentukan tanggal awal dan akhir
 min_date = df['date'].min().date()
 max_date = df['date'].max().date()
 
@@ -20,41 +20,28 @@ with st.sidebar:
     start_date = st.date_input("Pilih tanggal mulai", min_value=min_date, max_value=max_date, value=min_date)
     end_date = st.date_input("Pilih tanggal akhir", min_value=min_date, max_value=max_date, value=max_date)
 
+# Filter data berdasarkan rentang tanggal
 df_filtered = df[(df['date'] >= pd.to_datetime(start_date)) & (df['date'] <= pd.to_datetime(end_date))]
 
+# Menambahkan kolom tahun untuk visualisasi per tahun
+df_filtered['year'] = df_filtered['date'].dt.year
 
-def create_daily_rentals_df(df):
-    daily_rentals_df = df.resample(rule='D', on='date').agg({
-        "count": "sum"
-    }).reset_index()
-    daily_rentals_df.rename(columns={"count": "total_peminjaman"}, inplace=True)
-    return daily_rentals_df
-
-def create_weather_comparison_df(df):
-    weather_comparison_df = df.groupby("weather_condition").agg({"count": "sum"}).reset_index()
-    weather_comparison_df.rename(columns={"count": "total_peminjaman", "weather_condition": "kondisi_cuaca"}, inplace=True)
-    return weather_comparison_df
-
-# Peminjaman Harian
-daily_rentals_df = create_daily_rentals_df(df_filtered)
-
-st.subheader('Peminjaman Sepeda Harian')
-fig, ax = plt.subplots(figsize=(10, 6))
-ax.plot(daily_rentals_df['date'], daily_rentals_df['total_peminjaman'], marker='o', linestyle='-')
+# Grafik Tren Peminjaman Harian per Tahun
+st.subheader('Tren Peminjaman Sepeda Harian pada Tahun 2011 dan 2012')
+fig, ax = plt.subplots(figsize=(14, 6))
+sns.lineplot(data=df_filtered, x='date', y='count', hue='year', palette="coolwarm", alpha=0.5)
 ax.set_xlabel('Tanggal')
 ax.set_ylabel('Jumlah Peminjaman')
-ax.set_title('Peminjaman Sepeda Harian')
+ax.set_title('Tren Peminjaman Sepeda Harian pada Tahun 2011 dan 2012')
 st.pyplot(fig)
 
-# Kondisi Cuaca
-weather_comparison_df = create_weather_comparison_df(df_filtered)
-
-st.subheader('Peminjaman berdasarkan Kondisi Cuaca')
+# Grafik Pengaruh Kondisi Cuaca terhadap Peminjaman Sepeda
+st.subheader('Pengaruh Kondisi Cuaca terhadap Jumlah Peminjaman Sepeda')
 fig, ax = plt.subplots(figsize=(10, 6))
-sns.barplot(data=weather_comparison_df, x='kondisi_cuaca', y='total_peminjaman', ax=ax)
+sns.boxplot(data=df_filtered, x='weather_condition', y='count', palette="dark")
 ax.set_xlabel('Kondisi Cuaca')
 ax.set_ylabel('Jumlah Peminjaman')
-ax.set_title('Peminjaman Sepeda berdasarkan Kondisi cuaca')
+ax.set_title('Pengaruh Kondisi Cuaca terhadap Jumlah Peminjaman Sepeda')
 st.pyplot(fig)
 
 st.caption('Copyright ©ersyafin 2025')
