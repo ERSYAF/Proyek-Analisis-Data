@@ -24,8 +24,8 @@ Struktur folder dalam proyek ini adalah sebagai berikut:
 ## **Cara Menjalankan Proyek**  
 1. **Clone repository**  
    ```sh
-   git clone https://github.com/ERSYAF/Proyek-Analisis-Data-BikeSharing.git
-   cd Proyek-Analisis-Data-BikeSharing
+   git clone https://github.com/ERSYAF/Proyek-Analisis-Data.git
+   cd Proyek-Analisis-Data
 
 2. **Instal library yang dibutuhkan**
    ```sh
@@ -34,5 +34,5 @@ Struktur folder dalam proyek ini adalah sebagai berikut:
 3. **Menjalankan dashboard Streamlit**
    ```sh
    cd dashboard
-   streamlit run dahsboard_bike.py
+   streamlit run dahsboard.py
 
