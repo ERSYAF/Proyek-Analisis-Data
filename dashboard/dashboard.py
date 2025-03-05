@@ -7,7 +7,7 @@ from datetime import datetime
 sns.set(style='darkgrid')
 
 # Load data
-df = pd.read_csv("dataclean_bikesharing.csv", parse_dates=['date'])
+df = pd.read_csv("dashboard/dataclean_bikesharing.csv", parse_dates=['date'])
 
 # Menentukan tanggal awal dan tanggal akhir
 min_date = df['date'].min().date()
