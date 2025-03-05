@@ -12,7 +12,7 @@ Struktur folder dalam proyek ini adalah sebagai berikut:
 - **submission/**  
   - **dashboard/** → Berisi file dashboard untuk visualisasi data  
     - dataclean_bikesharing → Dataset yang digunakan dalam dashboard  
-    - dahsboard_bike.py → File Python untuk menjalankan dashboard  
+    - dahsboard.py → File Python untuk menjalankan dashboard  
   - **data/** → Berisi dataset utama untuk analisis  
     - day.csv  
     - hour.csv  
